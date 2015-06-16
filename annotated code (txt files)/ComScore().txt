@@ -1,0 +1,26 @@
+#ComScore() function, from helper.R, annotated
+
+#function the calculate composite scores for suture closure 
+# the output of this is fed into the Adult() function  
+ComScore<-function(A,B,C,D,E){
+  #combine input and convert to numeric 
+  V<-c(A,B,C,D,E)
+  V<-as.numeric(V)
+  
+  # count number of nas
+  na<-length(is.na(V)[is.na(V)==TRUE])
+  
+  #add together non nas
+  composite<-sum(V,na.rm=TRUE)
+  
+  if(na==0){composite<-composite
+  }else{
+    
+	#if don't have all required values estimate missing values using mean of recorded 
+	composite<-round(composite+(mean(V,na.rm=TRUE)*na),0)
+    
+  }
+  
+  #output 
+  list(na=na,score=composite)
+}

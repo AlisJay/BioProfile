@@ -1,0 +1,53 @@
+#dfchoose() function, from helpers.R, annotated
+
+#function used to determine what discriminate function to use based on metric can be recorded
+# this function is used inside the sex() function as part of the assessment of the craniometric data 
+# x is the reference table and y is the user input 
+dfchoose<-function(x,y){
+  
+  #creating blank field to be filled 
+  df<-NA
+  rows<-NA
+  
+  # if there are 3 options in the reference table 
+  # determining what input is needed for each discriminate function
+  if(ncol(x)==3){a<-head(row.names(x)[!(is.na(x[,2]))==TRUE],-2)
+                 b<-head(row.names(x)[!(is.na(x[,3]))==TRUE],-2)
+                 
+				 #choosing which to used by matching available input 
+				 if(anyNA(y[a,2])==FALSE){df<-"DF1"
+                                          rows<-a
+                 }else{if(anyNA(y[b,2])==FALSE){df<-"DF2"
+                                                rows<-b
+                 }else{df<-NA}
+                 }
+  }
+  
+  #if there are 7 options in the reference table 
+  #determining what input is needed for each discriminate function
+  if(ncol(x)==7){a<-head(row.names(x)[!(is.na(x[,2]))==TRUE],-2)
+                 b<-head(row.names(x)[!(is.na(x[,3]))==TRUE],-2)
+                 c<-head(row.names(x)[!(is.na(x[,4]))==TRUE],-2)
+                 d<-head(row.names(x)[!(is.na(x[,5]))==TRUE],-2)
+                 e<-head(row.names(x)[!(is.na(x[,6]))==TRUE],-2)
+                 f<-head(row.names(x)[!(is.na(x[,7]))==TRUE],-2)
+                 
+				 #choosing which to used by matching available input 
+				 if(anyNA(y[a,2])==FALSE){df<-"DF1"
+                                          rows<-a
+                 }else{if(anyNA(y[b,2])==FALSE){df<-"DF2"
+                                                rows<-b
+                 }else{if(anyNA(y[c,2])==FALSE){df<-"DF3"
+                                                rows<-c
+                 }else{if(anyNA(y[d,2])==FALSE){df<-"DF4"
+                                                rows<-d
+                 }else{if(anyNA(y[e,2])==FALSE){df<-"DF5"
+                                                rows<-e
+                 }else{if(anyNA(y[f,2])==FALSE){df<-"DF6"
+                                                rows<-f
+                 }else{df<-NA}
+                 }}}}}}
+  
+  #output
+  list(df=df,rows=rows)
+}

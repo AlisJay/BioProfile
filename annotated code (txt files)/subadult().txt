@@ -1,0 +1,47 @@
+#subadult() function, from helper.R, annotated 
+
+#a function to determine adult from sub adult using epiphyseal closure, and provide an estimated age range for subadults
+#n.b subadult means not skeletal mature, the age range is only accurate for remains from mid teens to mid twenties, juvenile remains are best age using other methods     
+subadult<-function(epiphysis){
+  
+  # creating reference data frame containing known closure ranges for each epiphysis 
+  ossification<-data.frame(epiphysis=c("pRadius","dFibula","dTibia","dFemur","pFibula","acromion","iliac","hHead","fHead","lTrochanter","pTibia","gTrochanter","dradius","s3s5","s2s3","s1s2","clavicle","SOS"),
+                           max=c(18.5,19.5,19.5,21.0,21.0,21.5,21.5,23.0,19.5,19.5,22.0,19.5,22.0,23.5,24.5,32.0,30.0,25.5),
+                           min=c(14.5,14.5,14.5,14.5,14.5,14.5,14.5,14.5,15.5,15.5,15.5,17.0,17.0,17.0,17.5,17.5,18.5,19.5),
+                           fullname=c("proximal radius","distal fibula", "distal Tibia","distal femur","proximal fibula", "acromion process","illiac crest","humeral head", "femoral head", "lesser trochanter",
+                                      "proximal Tibia","greater trochnater","distal radius","sacrum s3-s5","sacrum s3-s2","sacrum s1-s2","sternal end of clavicle","spheno-occipital synchondrosis"))
+  
+  # setting value of sacrum and base value of  message 
+  sacrum<-"s1s2"
+  Message<-NULL
+  
+  #assesment of input
+  
+  # if no epiphyses are selected 
+  if(is.null(epiphysis)){age<-"Adult";range<-NULL;Message<-"no epiphyses open so remains are adult"
+  }else{
+    
+	# if only s1s2 is selected 
+	if(identical(epiphysis,sacrum)){
+      Message<-"non fusion of s1 and s2 is very common if no other epiphyses are open the remains are likely adult"
+      age<-"Adult"
+    
+	#creating age range from selected epiphyses 
+	}else{
+      age<-"SubAdult"
+      
+	  #getting data from reference 
+	  max<-ossification$max[ossification$epiphysis %in% epiphysis]
+      min<-ossification$min[!(ossification$epiphysis %in% epiphysis)]
+      maxEp<-ossification$fullname[ossification$max==min(max)]
+      
+	  #creating range
+	  range<-paste(as.character(max(min))," - ",as.character(min(max)))
+      
+	  #warning if min is larger than max 
+	  Message<-if(min(max)<max(min)){paste("maximun is larger than minimum, this could be congential nonfusion please untick ", maxEp, " and try again")}
+    }}
+  
+  #output 
+  output<-list(age=age,range=range,Mesage=Message)
+}
