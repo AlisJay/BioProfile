@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BioProfile</title>
+  <meta charset="utf-8">
+  <meta name="description" content="BioProfile">
+  <meta name="author" content="A J Nicholson">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>BioProfile</h1>
+    <h2>The anthropologists shiny app</h2>
+    <p>A J Nicholson<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h3>BioProfile Introduction</h3>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/fig/image-1.png" alt="plot of chunk image"> </p>
+
+<p>BioProfile is an app that uses the results of standard osteological methods to create a basic biological profile (age, sex and ancestry). </p>
+
+<p>In osteological research the Biological profile is the first crucial step of data analysis. This app makes this assessment simple and reproducible.  </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h3>App use: Known and Unknown values</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>BioProfile has 3 input tabs (Ancestry, Age and Sex) for the user to input data. </p>
+
+<p>Sometime osteological analysis one of these values will be known from other sources. Therefore, the first option in each tab is whether that aspect is known or unknown. Based on this selection different input widgets will be displayed. For example age:</p>
+
+<pre><code class="r">library(png);library(grid)
+img &lt;- readPNG(&quot;screenshots.png&quot;); grid.raster(img)
+</code></pre>
+
+<p><img src="assets/fig/screenshots-1.png" alt="plot of chunk screenshots"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h3>App use: Unknown inputs, incomplete analysis.</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>Another fact of osteological analysis is the problem of incomplete remains. This means that not all aspects can be recorded for each set of remains. </p>
+
+<p>BioProfile allows the user to input only the information they have and still get a result. Each field allows the use to specify it as unknown. In the ancestry input this is done by selecting undeterminable, age inputs use NA and the sex input panel uses 0 values on the sliders and blank numerical input fields.  </p>
+
+<p>Of course the most reliable results are gain from complete analysis so the output for each field will include a warning message if there are missing values. </p>
+
+<pre><code class="r"># example of warning for missing data in sex input, sex() function
+
+w3&lt;-if(anyNA(results)){&quot;Your input was incomplete please note that the
+                       most reliable results come from complete analysis&quot;}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h3>App use: Interrelated functions and conditionalPanel outputs</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>To create the output BioProfile uses a series of interconnecting functions located in the helpers.R file:</p>
+
+<ol>
+<li><p>Ancestory(). Uses input from the ancestry panel to determine ancestry.</p></li>
+<li><p>SubAdult(). Uses the epiphysis check boxes on the age panel to distinguish adult and subadult remains. </p></li>
+<li><p>Sex(). Uses input from the sex panel as well as ancestry and subadult results to determine sex.</p></li>
+<li><p>Adult(). Uses input from the age panel (minus the epiphysis data) and sex to estimate age. </p></li>
+</ol>
+
+<p>Because of the ability to input known data and the interrelated nature of the functions there are multiple iterations of some of the function calls. Which iteration to use and which results to display is determined by conditionalPanels in ui.R. </p>
+
+<p>Annotated .txt copies of each function, ui.R and server.R can be found at <a href="https://github.com/AlisJay/BioProfile">https://github.com/AlisJay/BioProfile</a>. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='BioProfile Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='App use: Known and Unknown values'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='App use: Unknown inputs, incomplete analysis.'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='App use: Interrelated functions and conditionalPanel outputs'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
